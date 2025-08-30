@@ -16,9 +16,6 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.4"
-          - "8.0"
-          - "8.1"
           - "8.2"
         deps:
           - "normal"
@@ -27,113 +24,53 @@ jobs:
         symfony-deprecations-helper:
           - ""
         include:
-          # Test against latest Symfony 5.4 stable on 7.4
-          - symfony-require: "5.4.*"
-            php-version: "7.4"
-            deps: "dev"
-
-          # Test against latest Symfony 5.4 stable on 7.4 deps normal
-          - symfony-require: "5.4.*"
-            php-version: "7.4"
-            deps: "normal"
-
-          # Test against latest Symfony 5.4 stable on 8.0
-          - symfony-require: "5.4.*"
-            php-version: "8.0"
-            deps: "dev"
-
-          # Test against latest Symfony 5.4 stable on 8.0 deps normal
-          - symfony-require: "5.4.*"
-            php-version: "8.0"
-            deps: "normal"
-
-          # Test against latest Symfony 5.4 stable on 8.1
-          - symfony-require: "5.4.*"
-            php-version: "8.1"
-            deps: "dev"
-
-          # Test against latest Symfony 5.4 stable on 8.1 deps normal
-          - symfony-require: "5.4.*"
-            php-version: "8.1"
-            deps: "normal"
-
-          # Test against latest Symfony 5.4 stable on 8.2
-          - symfony-require: "5.4.*"
-            php-version: "8.2"
-            deps: "dev"
-
-          # Test against latest Symfony 5.4 stable on 8.2 deps normal
-          - symfony-require: "5.4.*"
-            php-version: "8.2"
-            deps: "normal"
-
-          # Test against latest Symfony 6.0 stable on 8.0
-          - symfony-require: "6.0.*"
-            php-version: "8.0"
-            deps: "dev"
-
-          # Test against latest Symfony 6.0 stable on 8.0 deps normal
-          - symfony-require: "6.0.*"
-            php-version: "8.0"
-            deps: "normal"
-
-          # Test against latest Symfony 6.0 stable on 8.1
-          - symfony-require: "6.0.*"
-            php-version: "8.1"
-            deps: "dev"
-
-          # Test against latest Symfony 6.0 stable on 8.1 deps normal
-          - symfony-require: "6.0.*"
-            php-version: "8.1"
-            deps: "normal"
-
           # Test against latest Symfony 6.0 stable on 8.2
-          - symfony-require: "6.0.*"
+          - symfony-require: "7.0.*"
             php-version: "8.2"
             deps: "dev"
 
           # Test against latest Symfony 6.0 stable on 8.2 deps normal
-          - symfony-require: "6.0.*"
+          - symfony-require: "7.0.*"
             php-version: "8.2"
             deps: "normal"
 
           # Test against latest Symfony 6.1 stable on 8.1
-          - symfony-require: "6.1.*"
+          - symfony-require: "7.1.*"
             php-version: "8.1"
             deps: "dev"
 
           # Test against latest Symfony 6.1 stable on 8.1 deps normal
-          - symfony-require: "6.1.*"
+          - symfony-require: "7.1.*"
             php-version: "8.1"
             deps: "normal"
 
           # Test against latest Symfony 6.1 stable on 8.2
-          - symfony-require: "6.1.*"
+          - symfony-require: "7.1.*"
             php-version: "8.2"
             deps: "dev"
 
           # Test against latest Symfony 6.1 stable on 8.2 deps normal
-          - symfony-require: "6.1.*"
+          - symfony-require: "7.1.*"
             php-version: "8.2"
             deps: "normal"
 
           # Test against latest Symfony 6.2 stable on 8.1
-          - symfony-require: "6.2.*"
-            php-version: "8.1"
+          - symfony-require: "7.2.*"
+            php-version: "8.2"
             deps: "dev"
 
           # Test against latest Symfony 6.2 stable on 8.1 deps normal
-          - symfony-require: "6.2.*"
-            php-version: "8.1"
+          - symfony-require: "7.2.*"
+            php-version: "8.2"
             deps: "normal"
 
           # Test against latest Symfony 6.2 stable on 8.2
-          - symfony-require: "6.2.*"
+          - symfony-require: "7.2.*"
             php-version: "8.2"
             deps: "dev"
 
           # Test against latest Symfony 6.2 stable on 8.2 deps normal
-          - symfony-require: "6.2.*"
+          - symfony-require: "7.2.*"
             php-version: "8.2"
             deps: "normal"
     steps:

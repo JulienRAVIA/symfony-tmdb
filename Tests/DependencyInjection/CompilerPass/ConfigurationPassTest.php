@@ -15,14 +15,15 @@ use Tmdb\SymfonyBundle\Tests\DependencyInjection\TestCase;
 use Tmdb\SymfonyBundle\TmdbSymfonyBundle;
 use Tmdb\Token\Api\ApiToken;
 use Tmdb\Token\Api\BearerToken;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
 final class ConfigurationPassTest extends TestCase
 {
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testProcessFullConfiguration()
+    private const DEPENDENCY_INJECTION_GROUP = 'DependencyInjection';
+    
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testProcessFullConfiguration(): void
     {
         $container = $this->createFullConfiguration();
         $this->registerBasicServices($container);
@@ -33,11 +34,9 @@ final class ConfigurationPassTest extends TestCase
         $this->doBasicAssertionsBasedOnFullOrMinimalConfig($container);
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testProcessMinimalConfiguration()
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testProcessMinimalConfiguration(): void
     {
         $container = $this->createMinimalConfiguration();
         $this->registerBasicServices($container);
@@ -48,11 +47,9 @@ final class ConfigurationPassTest extends TestCase
         $this->doBasicAssertionsBasedOnFullOrMinimalConfig($container);
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testAutowiring()
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testAutowiring(): void
     {
         $container = new ContainerBuilder();
 
@@ -89,11 +86,9 @@ final class ConfigurationPassTest extends TestCase
         $this->assertTag($container, get_class($uriFactoryMock), TmdbSymfonyBundle::PSR17_URI_FACTORIES);
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testAutowiringFailsWithUndiscoveredServices()
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testAutowiringFailsWithUndiscoveredServices(): void
     {
         $this->expectException(\RuntimeException::class);
         $container = new ContainerBuilder();
@@ -106,11 +101,9 @@ final class ConfigurationPassTest extends TestCase
         $pass->process($container);
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testAutowiringFailsWithSeveralDiscoveredServices()
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testAutowiringFailsWithSeveralDiscoveredServices(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -131,11 +124,9 @@ final class ConfigurationPassTest extends TestCase
         $pass->process($container);
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testProcessBearerToken()
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testProcessBearerToken(): void
     {
         $config = $this->getFullConfig();
         $config['options']['bearer_token'] = 'bearer_token';
@@ -146,7 +137,7 @@ final class ConfigurationPassTest extends TestCase
         $pass = new ConfigurationPass();
         $pass->process($container);
 
-        $this->assertEquals(
+        $this->assertSame(
             BearerToken::class,
             $container->getDefinition('Tmdb\SymfonyBundle\ClientConfiguration')->getArgument(0)->__toString()
         );
@@ -189,7 +180,7 @@ final class ConfigurationPassTest extends TestCase
         string $expectedServiceId,
         int $argument
     ) {
-        $this->assertEquals(
+        $this->assertSame(
             $expectedServiceId,
             $container->getDefinition('Tmdb\SymfonyBundle\ClientConfiguration')->getArgument($argument)->__toString()
         );

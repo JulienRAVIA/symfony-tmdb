@@ -9,15 +9,14 @@ use Tmdb\SymfonyBundle\DependencyInjection\TmdbSymfonyExtension;
 
 class TestCase extends BaseTestCase
 {
-    /** @var ContainerBuilder */
-    protected $container;
+    protected ?ContainerBuilder $container;
 
     /**
      * @param string $id
      */
     protected function assertHasDefinition($id): void
     {
-        $this->assertTrue(($this->container->hasDefinition($id) ?: $this->container->hasAlias($id)));
+        $this->assertTrue(($this->container->hasDefinition($id) || $this->container->hasAlias($id)));
     }
 
     /**
@@ -56,7 +55,7 @@ class TestCase extends BaseTestCase
      */
     protected function assertNotHasDefinition($id): void
     {
-        $this->assertFalse(($this->container->hasDefinition($id) ?: $this->container->hasAlias($id)));
+        $this->assertFalse(($this->container->hasDefinition($id) || $this->container->hasAlias($id)));
     }
 
     protected function tearDown(): void

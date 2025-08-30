@@ -40,7 +40,8 @@
         "symfony/framework-bundle": "^7.0",
         "symfony/phpunit-bridge": "^7.0",
         "php-http/cache-plugin": "^1.7",
-        "vimeo/psalm": "^6.0"
+        "vimeo/psalm": "^6.0",
+        "rector/rector": "^1.2"
     },
     "autoload": {
         "psr-4": { "Tmdb\\SymfonyBundle\\": "" }

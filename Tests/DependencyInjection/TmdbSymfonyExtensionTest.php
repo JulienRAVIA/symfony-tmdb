@@ -5,13 +5,14 @@ namespace Tmdb\SymfonyBundle\Tests\DependencyInjection;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Tmdb\SymfonyBundle\DependencyInjection\TmdbSymfonyExtension;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
 final class TmdbSymfonyExtensionTest extends TestCase
 {
-    /**
-     * @test
-     * @group DependencyInjection
-     */
+    private const DEPENDENCY_INJECTION_GROUP = 'DependencyInjection';
+    
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
     public function testDefaultConfigurationWithoutApiKeyThrowsException(): void
     {
         $this->expectException(InvalidConfigurationException::class);
@@ -20,10 +21,8 @@ final class TmdbSymfonyExtensionTest extends TestCase
         $loader->load([$config], new ContainerBuilder());
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
     public function testDefaultConfigurationWithApiKey(): void
     {
         $this->container = new ContainerBuilder();
@@ -36,10 +35,8 @@ final class TmdbSymfonyExtensionTest extends TestCase
         $this->assertHasDefinition('Tmdb\SymfonyBundle\Twig\TmdbExtension');
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
     public function testDefaultConfigurationHasLegacyAliases(): void
     {
         $this->container = new ContainerBuilder();
@@ -52,10 +49,8 @@ final class TmdbSymfonyExtensionTest extends TestCase
         $this->assertAlias($this->container, 'Tmdb\SymfonyBundle\Twig\TmdbExtension', 'tmdb.twig.image_extension');
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
     public function testDisablingRepositories(): void
     {
         $this->container = new ContainerBuilder();
@@ -69,10 +64,8 @@ final class TmdbSymfonyExtensionTest extends TestCase
         $this->assertNotHasDefinition('Tmdb\Repository\MovieRepository');
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
     public function testDisablingTwig(): void
     {
         $this->container = new ContainerBuilder();
@@ -86,10 +79,8 @@ final class TmdbSymfonyExtensionTest extends TestCase
         $this->assertNotHasDefinition('Tmdb\SymfonyBundle\Twig\TmdbExtension');
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
     public function testDisablingLegacyAliasesRemovesLegacyAliases(): void
     {
         $this->container = new ContainerBuilder();
@@ -103,10 +94,8 @@ final class TmdbSymfonyExtensionTest extends TestCase
         $this->assertNotAlias('tmdb.twig.image_extension');
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
     public function testLegacyMappingMapsCorrectly(): void
     {
         $this->container = new ContainerBuilder();
