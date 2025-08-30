@@ -39,7 +39,7 @@ final class EventDispatchingPassTest extends TestCase
      * @test
      * @group DependencyInjection
      */
-    public function testProcessFullConfiguration()
+    public function testProcessFullConfiguration(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.debug', true);
@@ -74,7 +74,7 @@ final class EventDispatchingPassTest extends TestCase
      * @test
      * @group DependencyInjection
      */
-    public function testProcessFullConfigurationWithSingleLogItemDisabled()
+    public function testProcessFullConfigurationWithSingleLogItemDisabled(): void
     {
         $container = $this->containerWithConfig([
             'log' => [
@@ -129,7 +129,7 @@ final class EventDispatchingPassTest extends TestCase
      * @test
      * @group DependencyInjection
      */
-    public function testBearerToken()
+    public function testBearerToken(): void
     {
         $container = $this->containerWithConfig(['options' => ['bearer_token' => 'foobar']]);
 
@@ -141,7 +141,7 @@ final class EventDispatchingPassTest extends TestCase
      * @test
      * @group DependencyInjection
      */
-    public function testWithFaultyAdapter()
+    public function testWithFaultyAdapter(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -152,7 +152,7 @@ final class EventDispatchingPassTest extends TestCase
      * @test
      * @group DependencyInjection
      */
-    public function testWithFaultyFormatter()
+    public function testWithFaultyFormatter(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -163,7 +163,7 @@ final class EventDispatchingPassTest extends TestCase
      * @test
      * @group DependencyInjection
      */
-    public function testWithFaultyListener()
+    public function testWithFaultyListener(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -174,7 +174,7 @@ final class EventDispatchingPassTest extends TestCase
      * @test
      * @group DependencyInjection
      */
-    public function testWithLogItemAliases()
+    public function testWithLogItemAliases(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.debug', true);
@@ -209,7 +209,7 @@ final class EventDispatchingPassTest extends TestCase
      * @param array $faulty
      * @return ContainerBuilder
      */
-    private function containerWithConfig(array $faulty = [])
+    private function containerWithConfig(array $faulty = []): ContainerBuilder
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.debug', true);
@@ -235,7 +235,7 @@ final class EventDispatchingPassTest extends TestCase
     /**
      * @param ContainerBuilder $container
      */
-    protected function registerBasicServices(ContainerBuilder $container)
+    protected function registerBasicServices(ContainerBuilder $container): void
     {
         $container->register(EventDispatcher::class, EventDispatcher::class)->addTag(
             TmdbSymfonyBundle::PSR14_EVENT_DISPATCHERS
@@ -279,7 +279,7 @@ final class EventDispatchingPassTest extends TestCase
     /**
      * @param ContainerBuilder $container
      */
-    protected function registerListenerServices(ContainerBuilder $container)
+    protected function registerListenerServices(ContainerBuilder $container): void
     {
         $container->register(RequestListener::class, RequestListener::class);
         $container->register(Psr6CachedRequestListener::class, Psr6CachedRequestListener::class);
@@ -306,7 +306,8 @@ final class EventDispatchingPassTest extends TestCase
         int $httpClientExceptionEventCount = 0,
         int $tmdbExceptionEventCount = 0,
         int $beforeHydrationEventCount = 0
-    ) {
+    ): void
+    {
         /** @var Client $client */
         $client = $container->get(Client::class);
 
