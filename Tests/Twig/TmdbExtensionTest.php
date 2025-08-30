@@ -8,10 +8,11 @@ use Tmdb\Model\Configuration;
 use Tmdb\Model\Image;
 use Tmdb\Repository\ConfigurationRepository;
 use Tmdb\SymfonyBundle\Twig\TmdbExtension;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
 class TmdbExtensionTest extends TestCase
 {
-    #[\PHPUnit\Framework\Attributes\Group('Twig')]
+    #[PHPUnit\Group('Twig')]
     public function testTwigExtension(): void
     {
         $client = $this->createMock(Client::class);
@@ -45,7 +46,7 @@ class TmdbExtensionTest extends TestCase
         $this->assertCount(2, $extension->getFilters());
     }
 
-    #[\PHPUnit\Framework\Attributes\Group('Twig')]
+    #[PHPUnit\Group('Twig')]
     public function testRepository(): void
     {
         $client = $this->createMock(Client::class);
