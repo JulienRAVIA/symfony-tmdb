@@ -10,6 +10,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Tmdb\Client;
@@ -20,7 +21,6 @@ use Tmdb\Formatter\HttpMessage\SimpleHttpMessageFormatter;
 use Tmdb\Formatter\Hydration\SimpleHydrationFormatter;
 use Tmdb\Formatter\TmdbApiException\SimpleTmdbApiExceptionFormatter;
 
-
 class Configuration implements ConfigurationInterface
 {
     /**
@@ -29,8 +29,12 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('tmdb_symfony');
-        /** @var ArrayNodeDefinition $rootNode */
+
         $rootNode = $treeBuilder->getRootNode();
+
+        if (!$rootNode instanceof ArrayNodeDefinition) {
+            return $treeBuilder;
+        }
 
         $this->addRootChildren($rootNode);
         $this->addOptionsSection($rootNode);
@@ -45,7 +49,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->beforeNormalization()
                 ->ifTrue(function ($v) {
-                    return isset($v['api_key']) && !empty($v['api_key']);
+                    return !empty($v['api_key']);
                 })
                 ->then(function ($v) {
                     $v['options']['api_token'] = $v['api_key'];

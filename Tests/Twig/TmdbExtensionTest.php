@@ -8,13 +8,12 @@ use Tmdb\Model\Configuration;
 use Tmdb\Model\Image;
 use Tmdb\Repository\ConfigurationRepository;
 use Tmdb\SymfonyBundle\Twig\TmdbExtension;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
 class TmdbExtensionTest extends TestCase
 {
-    /**
-     * @group Twig
-     */
-    public function testTwigExtension()
+    #[PHPUnit\Group('Twig')]
+    public function testTwigExtension(): void
     {
         $client = $this->createMock(Client::class);
         $responseData = json_decode(
@@ -38,19 +37,17 @@ class TmdbExtensionTest extends TestCase
             ->setVoteAverage(4.7)
             ->setVoteCount(666);
 
-        $this->assertEquals('//image.tmdb.org/t/p/original/foo.jpg', $extension->getUrl($image));
-        $this->assertEquals(
+        $this->assertSame('//image.tmdb.org/t/p/original/foo.jpg', $extension->getUrl($image));
+        $this->assertSame(
             '<img src="//image.tmdb.org/t/p/original/foo.jpg" width="" height="" title="" alt=""/>',
             $extension->getHtml($image)
         );
-        $this->assertEquals('tmdb_extension', $extension->getName());
+        $this->assertSame('tmdb_extension', $extension->getName());
         $this->assertCount(2, $extension->getFilters());
     }
 
-    /**
-     * @group Twig
-     */
-    public function testRepository()
+    #[PHPUnit\Group('Twig')]
+    public function testRepository(): void
     {
         $client = $this->createMock(Client::class);
         $responseData = json_decode(
@@ -82,12 +79,12 @@ class TmdbExtensionTest extends TestCase
             ->setVoteAverage(4.7)
             ->setVoteCount(666);
 
-        $this->assertEquals('//image.tmdb.org/t/p/original/foo.jpg', $extension->getUrl($image));
-        $this->assertEquals(
+        $this->assertSame('//image.tmdb.org/t/p/original/foo.jpg', $extension->getUrl($image));
+        $this->assertSame(
             '<img src="//image.tmdb.org/t/p/original/foo.jpg" width="" height="" title="" alt=""/>',
             $extension->getHtml($image)
         );
-        $this->assertEquals('tmdb_extension', $extension->getName());
+        $this->assertSame('tmdb_extension', $extension->getName());
         $this->assertCount(2, $extension->getFilters());
     }
 }

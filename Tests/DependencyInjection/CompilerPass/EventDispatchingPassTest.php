@@ -32,14 +32,15 @@ use Tmdb\SymfonyBundle\DependencyInjection\TmdbSymfonyExtension;
 use Tmdb\SymfonyBundle\Tests\DependencyInjection\TestCase;
 use Tmdb\SymfonyBundle\TmdbSymfonyBundle;
 use Tmdb\Token\Api\BearerToken;
+use PHPUnit\Framework\Attributes as PHPUnit;
 
 final class EventDispatchingPassTest extends TestCase
 {
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testProcessFullConfiguration()
+    private const DEPENDENCY_INJECTION_GROUP = 'DependencyInjection';
+    
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testProcessFullConfiguration(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.debug', true);
@@ -70,11 +71,9 @@ final class EventDispatchingPassTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testProcessFullConfigurationWithSingleLogItemDisabled()
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testProcessFullConfigurationWithSingleLogItemDisabled(): void
     {
         $container = $this->containerWithConfig([
             'log' => [
@@ -95,11 +94,9 @@ final class EventDispatchingPassTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testProcessMinimalConfiguration()
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testProcessMinimalConfiguration(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.debug', true);
@@ -125,56 +122,46 @@ final class EventDispatchingPassTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testBearerToken()
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testBearerToken(): void
     {
         $container = $this->containerWithConfig(['options' => ['bearer_token' => 'foobar']]);
 
         $definition = $container->getDefinition(ApiTokenRequestListener::class);
-        $this->assertEquals(BearerToken::class, $definition->getArgument(0)->__toString());
+        $this->assertSame(BearerToken::class, $definition->getArgument(0)->__toString());
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testWithFaultyAdapter()
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testWithFaultyAdapter(): void
     {
         $this->expectException(\RuntimeException::class);
 
         $this->containerWithConfig(['log' => ['request_logging' => ['adapter' => 'foobar']]]);
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testWithFaultyFormatter()
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testWithFaultyFormatter(): void
     {
         $this->expectException(\RuntimeException::class);
 
         $this->containerWithConfig(['log' => ['request_logging' => ['formatter' => 'foobar']]]);
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testWithFaultyListener()
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testWithFaultyListener(): void
     {
         $this->expectException(\RuntimeException::class);
 
         $this->containerWithConfig(['log' => ['request_logging' => ['listener' => 'foobar']]]);
     }
 
-    /**
-     * @test
-     * @group DependencyInjection
-     */
-    public function testWithLogItemAliases()
+    #[PHPUnit\Group(self::DEPENDENCY_INJECTION_GROUP)]
+    #[PHPUnit\Test]
+    public function testWithLogItemAliases(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.debug', true);
@@ -209,7 +196,7 @@ final class EventDispatchingPassTest extends TestCase
      * @param array $faulty
      * @return ContainerBuilder
      */
-    private function containerWithConfig(array $faulty = [])
+    private function containerWithConfig(array $faulty = []): ContainerBuilder
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.debug', true);
@@ -235,7 +222,7 @@ final class EventDispatchingPassTest extends TestCase
     /**
      * @param ContainerBuilder $container
      */
-    protected function registerBasicServices(ContainerBuilder $container)
+    protected function registerBasicServices(ContainerBuilder $container): void
     {
         $container->register(EventDispatcher::class, EventDispatcher::class)->addTag(
             TmdbSymfonyBundle::PSR14_EVENT_DISPATCHERS
@@ -279,7 +266,7 @@ final class EventDispatchingPassTest extends TestCase
     /**
      * @param ContainerBuilder $container
      */
-    protected function registerListenerServices(ContainerBuilder $container)
+    protected function registerListenerServices(ContainerBuilder $container): void
     {
         $container->register(RequestListener::class, RequestListener::class);
         $container->register(Psr6CachedRequestListener::class, Psr6CachedRequestListener::class);
@@ -306,36 +293,37 @@ final class EventDispatchingPassTest extends TestCase
         int $httpClientExceptionEventCount = 0,
         int $tmdbExceptionEventCount = 0,
         int $beforeHydrationEventCount = 0
-    ) {
+    ): void
+    {
         /** @var Client $client */
         $client = $container->get(Client::class);
 
         /** @var EventDispatcher $eventDispatcher */
         $eventDispatcher = $client->getEventDispatcher();
 
-        $this->assertEquals(
+        $this->assertCount(
             $beforeRequestEventCount,
-            count($eventDispatcher->getListeners(BeforeRequestEvent::class))
+            $eventDispatcher->getListeners(BeforeRequestEvent::class)
         );
 
-        $this->assertEquals(
+        $this->assertCount(
             $responseEventCount,
-            count($eventDispatcher->getListeners(ResponseEvent::class))
+            $eventDispatcher->getListeners(ResponseEvent::class)
         );
 
-        $this->assertEquals(
+        $this->assertCount(
             $httpClientExceptionEventCount,
-            count($eventDispatcher->getListeners(HttpClientExceptionEvent::class))
+            $eventDispatcher->getListeners(HttpClientExceptionEvent::class)
         );
 
-        $this->assertEquals(
+        $this->assertCount(
             $tmdbExceptionEventCount,
-            count($eventDispatcher->getListeners(TmdbExceptionEvent::class))
+            $eventDispatcher->getListeners(TmdbExceptionEvent::class)
         );
 
-        $this->assertEquals(
+        $this->assertCount(
             $beforeHydrationEventCount,
-            count($eventDispatcher->getListeners(BeforeHydrationEvent::class))
+            $eventDispatcher->getListeners(BeforeHydrationEvent::class)
         );
     }
 }
