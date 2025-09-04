@@ -1,5 +1,5 @@
 {
-    "name": "php-tmdb/symfony",
+    "name": "xylis/tmdb-symfony",
     "license": "MIT",
     "type": "symfony-bundle",
     "description": "Symfony Bundle for TMDB (The Movie Database) API. Provides easy access to the php-tmdb/api library.",
